@@ -9,9 +9,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.adityagarg.tictactoe.Main2Activity"
+    tools:context="com.example.adityagarg.tictactoe.TwoPlayerActivity"
     android:background="@color/lightskyblue"
-    tools:showIn="@layout/activity_main2">
+    tools:showIn="@layout/activity_two_player">
 
 
 

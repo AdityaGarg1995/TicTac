@@ -11,23 +11,5 @@
         android:orderInCategory="100"
         android:title="New Game"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/exit"
-        android:orderInCategory="100"
-        android:title="Exit"
-        app:showAsAction="never"
-        />
-    <item
-        android:id="@+id/onePlayer"
-        android:orderInCategory="100"
-        android:title="One Player"
-        app:showAsAction="never"
-        />
-    <item
-        android:id="@+id/twoPlayer"
-        android:orderInCategory="100"
-        android:title="Two Player"
-        app:showAsAction="never"
-        />
 
 </menu>

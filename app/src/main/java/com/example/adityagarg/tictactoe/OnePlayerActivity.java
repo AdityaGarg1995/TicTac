@@ -1,9 +1,11 @@
 package com.example.adityagarg.tictactoe;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -96,347 +98,106 @@ public class OnePlayerActivity extends AppCompatActivity implements View.OnClick
         initialise();
     }
 
+    public boolean checkResultHelper(Button b1, Button b2, Button b3){
+
+        boolean win;
+
+        if((b1.getText().equals(b2.getText())) && (b2.getText().equals(b3.getText())) && !b1.getText().equals("")) {
+
+            b1.setBackgroundResource(R.color.red);
+            b2.setBackgroundResource(R.color.red);
+            b3.setBackgroundResource(R.color.red);
+
+            if (b1.getText().equals(playerSymbol)) {
+                playerTurn.setText("Player Wins");
+                playerScore++;
+                playerWinsTextView.setText(playerScore + "");
+            }
+
+            else if (b1.getText().equals(computerSymbol)) {
+                playerTurn.setText("Computer Wins");
+                computerScore++;
+                computerWinsTextView.setText(computerScore + "");
+            }
+            win = true;
+        }
+
+        else  win = false;
+
+        return win;
+    }
 
     public void checkResult() {
 
-        // 123
-        if ((buttons[0][0].getText().equals(buttons[0][1].getText()))
-                && (buttons[0][1].getText().equals(buttons[0][2].getText()))
-                && !buttons[0][0].getText().equals("")) {
+        aPlayerWon = /* 123 */ (checkResultHelper(buttons[0][0], buttons[0][1], buttons[0][2]))
+                     /* 147 */ || (checkResultHelper(buttons[0][0], buttons[1][0], buttons[2][0]))
+                     /* 159 */ || (checkResultHelper(buttons[0][0], buttons[1][1], buttons[2][2]))
+                     /* 258 */ || (checkResultHelper(buttons[0][1], buttons[1][1], buttons[2][1]))
+                     /* 369 */ || (checkResultHelper(buttons[0][2], buttons[1][2], buttons[2][2]))
+                     /* 456 */ || (checkResultHelper(buttons[1][0], buttons[1][1], buttons[1][2]))
+                     /* 789 */ || (checkResultHelper(buttons[2][0], buttons[2][1], buttons[2][2]))
+                     /* 357 */ || (checkResultHelper(buttons[0][2], buttons[1][1], buttons[2][0]));
 
-            if (buttons[0][0].getText().equals(playerSymbol)) {
-
-                buttons[0][0].setBackgroundResource(R.color.red);
-                buttons[0][1].setBackgroundResource(R.color.red);
-                buttons[0][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[0][0].getText().equals(computerSymbol)) {
-
-                buttons[0][0].setBackgroundResource(R.color.red);
-                buttons[0][1].setBackgroundResource(R.color.red);
-                buttons[0][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
+        if(aPlayerWon) {
+            if (playerTurn.getText().toString().equals("Player Wins")) {
+                AlertDialog.Builder builder = createAlertDialog("CONGRATULATIONS!!", "You Win \n Start new game?");
+                builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        exchangeSymbols();
+                        initialise();
+                    }
+                })
+                        .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                               finish();
+                            }
+                        });
+                builder.create().show();
             }
-            // 147
+
+            else if (playerTurn.getText().toString().equals("Computer Wins")) {
+                AlertDialog.Builder builder = createAlertDialog("", "Computer Wins \n Start new game?");
+                builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        exchangeSymbols();
+                        initialise();
+                    }
+                })
+                        .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                builder.create().show();
+            }
+
+
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    buttons[i][j].setEnabled(false);
         }
 
-        else if ((buttons[0][0].getText().equals(buttons[1][0].getText()))
-                && (buttons[1][0].getText().equals(buttons[2][0].getText()))
-                && !buttons[0][0].getText().equals("")) {
-
-            if (buttons[0][0].getText().equals(playerSymbol)) {
-
-                buttons[0][0].setBackgroundResource(R.color.red);
-                buttons[1][0].setBackgroundResource(R.color.red);
-                buttons[2][0].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[0][0].getText().equals(computerSymbol)) {
-
-                buttons[0][0].setBackgroundResource(R.color.red);
-                buttons[1][0].setBackgroundResource(R.color.red);
-                buttons[2][0].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-            }
-            // 258
-        }
-
-        else if ((buttons[0][1].getText().equals(buttons[1][1].getText()))
-                && (buttons[1][1].getText().equals(buttons[2][1].getText()))
-                && !buttons[0][1].getText().equals("")) {
-
-            if (buttons[0][1].getText().equals(playerSymbol)) {
-
-                buttons[0][1].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[2][1].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[0][1].getText().equals(computerSymbol)) {
-
-                buttons[0][1].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[2][1].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-            }
-            // 369
-        }
-        else if ((buttons[0][2].getText().equals(buttons[1][2].getText()))
-                && (buttons[1][2].getText().equals(buttons[2][2].getText()))
-                && !buttons[0][2].getText().equals("")) {
-
-            if (buttons[0][2].getText().equals(playerSymbol)) {
-
-                buttons[0][2].setBackgroundResource(R.color.red);
-                buttons[1][2].setBackgroundResource(R.color.red);
-                buttons[2][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[0][2].getText().equals(computerSymbol)) {
-
-                buttons[0][2].setBackgroundResource(R.color.red);
-                buttons[1][2].setBackgroundResource(R.color.red);
-                buttons[2][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-            }
-            // 456
-        }
-        else if ((buttons[1][0].getText().equals(buttons[1][1].getText()))
-                && (buttons[1][1].getText().equals(buttons[1][2].getText()))
-                && !buttons[1][0].getText().equals("")) {
-
-            if (buttons[1][0].getText().equals(playerSymbol)) {
-
-                buttons[1][0].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[1][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[1][0].getText().equals(computerSymbol)) {
-
-                buttons[1][0].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[1][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-            }
-            // 789
-        } else if ((buttons[2][0].getText().equals(buttons[2][1].getText()))
-                && (buttons[2][1].getText().equals(buttons[2][2].getText()))
-                && !buttons[2][0].getText().equals("")) {
-
-            if (buttons[2][0].getText().equals(playerSymbol)) {
-
-                buttons[2][0].setBackgroundResource(R.color.red);
-                buttons[2][1].setBackgroundResource(R.color.red);
-                buttons[2][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[2][0].getText().equals(computerSymbol)) {
-
-                buttons[2][0].setBackgroundResource(R.color.red);
-                buttons[2][1].setBackgroundResource(R.color.red);
-                buttons[2][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-            }
-            // 159
-        } else if ((buttons[0][0].getText().equals(buttons[1][1].getText()))
-                && (buttons[1][1].getText().equals(buttons[2][2].getText()))
-                && !buttons[0][0].getText().equals("")) {
-
-            if (buttons[0][0].getText().equals(playerSymbol)) {
-
-                buttons[0][0].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[2][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[0][0].getText().equals(computerSymbol)) {
-
-                buttons[0][0].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[2][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-            }
-            // 357
-        }
-        else if ((buttons[0][2].getText().equals(buttons[1][1].getText()))
-                && (buttons[1][1].getText().equals(buttons[2][0].getText()))
-                && !buttons[0][2].getText().equals("")) {
-
-            if (buttons[0][2].getText().equals(playerSymbol)) {
-
-                buttons[0][2].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[2][0].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Player Wins");
-
-                playerScore++;
-                playerWinsTextView.setText(playerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            } else if (buttons[0][2].getText().equals(computerSymbol)) {
-
-                buttons[2][0].setBackgroundResource(R.color.red);
-                buttons[1][1].setBackgroundResource(R.color.red);
-                buttons[0][2].setBackgroundResource(R.color.red);
-
-                playerTurn.setText("Computer Wins");
-
-                computerScore++;
-                computerWinsTextView.setText(computerScore + "");
-                aPlayerWon = true;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        buttons[i][j].setEnabled(false);
-
-            }
-        }
-        else if (countOfMoves == 9 && !aPlayerWon) {
+        else if(countOfMoves == 9 && !aPlayerWon){
+            countOfMoves = 0;
             playerTurn.setText("Draw");
             numberOfDraws++;
             drawNumberTextView.setText(numberOfDraws + "");
+
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    buttons[i][j].setEnabled(false);
         }
     }
 
 
-
-    @Override
-    public void onClick(View v) {
-
-        Button pressed = (Button) v;
-        if(!aPlayerWon) {
-            if (humanTurn) {
-                for (int i = 0; i < availableButtons.size(); i++) {
-                    if (pressed.equals(availableButtons.get(i)) && !pressed.getBackground().equals(R.color.lightgray)) {
-                        humanTurn = false;
-                        countOfMoves++;
-                        pressed.setText(playerSymbol);
-                        pressed.setEnabled(false);
-                        pressed.setBackgroundResource(R.color.lightgray);
-                        playerTurn.setText("Computer's Turn");
-                        checkResult();
-                        computersTurn();
-                        break;
-                    }
-                }
-            }
-            else if (!humanTurn) {
-//            Do Nothing
-            }
-        }
-
+    public void buttonSetting(Button b, String symbol){
+        b.setText(symbol);
+        b.setEnabled(false);
+        b.setBackgroundResource(R.color.lightgray);
     }
 
     public void computersTurn() {
@@ -455,9 +216,7 @@ public class OnePlayerActivity extends AppCompatActivity implements View.OnClick
                     // Do something after 1s = 1000ms
                     humanTurn = true;
                     if (pressed.isEnabled() && !pressed.getBackground().equals(R.color.lightgray)) {
-                        pressed.setText(computerSymbol);
-                        pressed.setEnabled(false);
-                        pressed.setBackgroundResource(R.color.lightgray);
+                        buttonSetting(pressed, computerSymbol);
                         playerTurn.setText("Player's Turn");
                         countOfMoves++;
                         checkResult();
@@ -494,6 +253,42 @@ public class OnePlayerActivity extends AppCompatActivity implements View.OnClick
         computerSymbol = temp;
     }
 
+
+    public AlertDialog.Builder createAlertDialog(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        return builder;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        Button pressed = (Button) v;
+        if(!aPlayerWon) {
+            if (humanTurn) {
+                for (int i = 0; i < availableButtons.size(); i++) {
+                    if (pressed.equals(availableButtons.get(i)) && !pressed.getBackground().equals(R.color.lightgray)) {
+                        humanTurn = false;
+                        countOfMoves++;
+                        buttonSetting(pressed, playerSymbol);
+                        playerTurn.setText("Computer's Turn");
+                        checkResult();
+                        computersTurn();
+                        break;
+                    }
+                }
+            }
+            else if (!humanTurn) {
+//            Do Nothing
+            }
+        }
+
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -507,36 +302,33 @@ public class OnePlayerActivity extends AppCompatActivity implements View.OnClick
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        int id = item.getItemId();
+        switch (item.getItemId()){
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+            case R.id.action_settings:
             try {
                 startActivity(new Intent(this, SettingsActivity.class));
             }catch (Exception e){}
-            return true;
-        }
+            break;
 
-        if (id == R.id.newGame) {
+            case R.id.newGame:
             try {
-                exchangeSymbols();
-                initialise();
-            }catch (Exception e){}
-            return true;
-        }
-        else if (id == R.id.exit) {
-            System.exit(0);
-            return true;
-        }
-        else if(id == R.id.onePlayer){
+                AlertDialog.Builder builder = createAlertDialog("NEW GAME", "Start New Game?");
+                builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        exchangeSymbols();
+                        initialise();
+                    }
+                })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-        }
-        else if(id == R.id.twoPlayer){
-            try {
-                finish();
-                startActivity(new Intent(this, Main2Activity.class));
-            } catch (Exception e){}
-            return true;
+                            }
+                        });
+                builder.create().show();
+            } catch (Exception e) { }
+            break;
         }
         return super.onOptionsItemSelected(item);
     }

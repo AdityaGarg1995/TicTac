@@ -20,7 +20,6 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.example.adityagarg.tictactoe.Main2Activity;
 import com.example.adityagarg.tictactoe.R;
 
 import java.util.List;
@@ -53,6 +52,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -232,4 +235,5 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
 }

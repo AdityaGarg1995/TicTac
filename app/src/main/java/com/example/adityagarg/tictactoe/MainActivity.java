@@ -1,9 +1,11 @@
 package com.example.adityagarg.tictactoe;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -61,8 +63,17 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
         else  super.onBackPressed();
-
     }
+
+
+    public AlertDialog.Builder createAlertDialog(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        return builder;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,16 +87,34 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch(item.getItemId()) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            try {
-                startActivity(new Intent(this, SettingsActivity.class));
-            }catch (Exception e){}
-            return true;
+            //noinspection SimplifiableIfStatement
+            case R.id.action_settings:
+                try {
+                    startActivity(new Intent(this, SettingsActivity.class));
+                } catch (Exception e) { }
+            break;
+
+            case R.id.exit:
+                try{
+                    AlertDialog.Builder builder = createAlertDialog("EXIT GAME", "Do you want to exit the game?");
+                    builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                           finish();
+                        }
+                    })
+                          .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                              @Override
+                              public void onClick(DialogInterface dialog, int which) {
+
+                              }
+                          });
+                    builder.create().show();
+                } catch (Exception e) { }
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -93,28 +122,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
         switch (item.getItemId()) {
-            case R.id.nav_camera: {
+            case R.id.nav_camera:
                 // Handle the camera action
                 break;
-            }
-            case R.id.nav_gallery: {
+
+            case R.id.nav_gallery:
                 break;
-            }
-            case R.id.nav_slideshow: {
+
+            case R.id.nav_slideshow:
                 break;
-            }
-            case R.id.nav_manage: {
+
+            case R.id.nav_manage:
                 break;
-            }
-            case R.id.nav_share: {
+
+            case R.id.nav_share:
                 break;
-            }
-            case R.id.nav_send: {
+
+            case R.id.nav_send:
                 break;
-            }
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -124,15 +151,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        if (v == onePlayer){
-            try {
-                startActivity(new Intent(this, OnePlayerActivity.class));
-            } catch (Exception e){}
-        }
-        else if (v == twoPlayer){
-            try {
-                startActivity(new Intent(this, Main2Activity.class));
-            } catch (Exception e){}
+        switch (v.getId()) {
+
+            case R.id.one_player:
+                try {
+                    startActivity(new Intent(this, OnePlayerActivity.class));
+                } catch (Exception e) { }
+                break;
+
+            case R.id.two_player:
+                try {
+                    startActivity(new Intent(this, TwoPlayerActivity.class));
+                } catch (Exception e) { }
+            break;
         }
     }
 }
