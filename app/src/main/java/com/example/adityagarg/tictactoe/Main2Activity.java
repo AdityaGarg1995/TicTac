@@ -2,6 +2,7 @@ package com.example.adityagarg.tictactoe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,6 +24,12 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     int playerXScore = 0, playerOScore = 0, numberOfDraws = 0, countOfMoves = 0;
 
 
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
     @Override
     protected void onStop() {
@@ -47,6 +54,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setupActionBar();
 
         buttons[0][0] = (Button) findViewById(R.id.button1);
         buttons[0][1] = (Button) findViewById(R.id.button2);
@@ -74,7 +82,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         drawNumber = (TextView) findViewById(R.id.drawsNumber);
 
         initialise();
-
     }
 
     @Override
@@ -110,8 +117,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
             }
         }
-
-
     }
 
     public void initialise() {
@@ -128,10 +133,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         playerOTurn = true;
         aPlayerWon = false;
         playerTurn.setText("Player O Turn");
-
     }
-
-
 
     public void checkResult() {
 
@@ -171,7 +173,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
                         buttons[i][j].setEnabled(false);
-
             }
 
         // 147
@@ -210,7 +211,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
                         buttons[i][j].setEnabled(false);
-
             }
 
         // 258
@@ -249,7 +249,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
                         buttons[i][j].setEnabled(false);
-
             }
 
         // 369
@@ -288,7 +287,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
                         buttons[i][j].setEnabled(false);
-
             }
 
         // 456
@@ -326,7 +324,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
                         buttons[i][j].setEnabled(false);
-
             }
         // 789
         }else if((buttons[2][0].getText().equals(buttons[2][1].getText()))
@@ -364,7 +361,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     for (int i = 0; i < 3; i++)
                         for (int j = 0; j < 3; j++)
                             buttons[i][j].setEnabled(false);
-
                 }
 
 
@@ -388,7 +384,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     for (int i = 0; i < 3; i++)
                         for (int j = 0; j < 3; j++)
                             buttons[i][j].setEnabled(false);
-
                 }
                 else if (buttons[0][0].getText().equals("O")) {
 
@@ -405,7 +400,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     for (int i = 0; i < 3; i++)
                         for (int j = 0; j < 3; j++)
                             buttons[i][j].setEnabled(false);
-
                 }
 
 
@@ -429,7 +423,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
                         buttons[i][j].setEnabled(false);
-
             }
             else if(buttons[0][2].getText().equals("O")){
 
@@ -446,7 +439,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
                         buttons[i][j].setEnabled(false);
-
             }
         }
 
@@ -456,7 +448,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             numberOfDraws++;
             drawNumber.setText(numberOfDraws + "");
         }
-
     }
 
 
@@ -479,27 +470,21 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
-
-        if(id == R.id.newGame){
+        else if(id == R.id.newGame){
             initialise();
             return true;
         }
-
         else if(id == R.id.exit){
             System.exit(0);
             return true;
         }
         else if(id == R.id.onePlayer){
+            finish();
             startActivity(new Intent(this, OnePlayerActivity.class));
             return true;
         }
         else if(id == R.id.twoPlayer){
-            startActivity(new Intent(this, Main2Activity.class));
-            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }
